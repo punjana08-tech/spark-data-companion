@@ -20,7 +20,7 @@ function Page() {
         <Stat label="Transactions" value={fmtNum(total)} />
         <Stat label="Success Rate" value={fmtPct((success / total) * 100)} accent="accent" />
         <Stat label="Top Failure" value={p.failures_by_code[0]?.name ?? "—"} sub={`${fmtNum(p.failures_by_code[0]?.value ?? 0)} cases`} accent="destructive" />
-        <Stat label="Settled Volume" value={fmtCur(p.amount_stats.find((s) => s.status === "Success")?.total ?? 0)} accent="info" />
+        <Stat label="Settled Volume" value={fmtCur(p.amount_stats.find((s: any) => s.status === "Success")?.total ?? 0)} accent="info" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">
