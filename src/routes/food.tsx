@@ -36,7 +36,7 @@ function Page() {
               <CartesianGrid stroke="oklch(0.3 0.03 265 / 0.4)" vertical={false} />
               <XAxis dataKey="hour" stroke="oklch(0.6 0.03 250)" fontSize={11} />
               <YAxis stroke="oklch(0.6 0.03 250)" fontSize={11} />
-              <Tooltip contentStyle={ts} formatter={(v: number, n) => n === "revenue" ? fmtCur(v) : v} />
+              <Tooltip contentStyle={ts} formatter={(v: any, n: any) => n === "revenue" ? fmtCur(v) : v} />
               <Area type="monotone" dataKey="revenue" stroke={CHART_COLORS[2]} fill="url(#gf)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
@@ -60,7 +60,7 @@ function Page() {
               <CartesianGrid stroke="oklch(0.3 0.03 265 / 0.4)" vertical={false} />
               <XAxis dataKey="name" stroke="oklch(0.6 0.03 250)" fontSize={11} />
               <YAxis stroke="oklch(0.6 0.03 250)" fontSize={11} />
-              <Tooltip contentStyle={ts} formatter={(v: number) => fmtCur(v)} />
+              <Tooltip contentStyle={ts} formatter={(v: any) => fmtCur(v)} />
               <Bar dataKey="revenue" fill={CHART_COLORS[0]} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

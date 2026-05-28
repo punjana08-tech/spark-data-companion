@@ -71,7 +71,7 @@ function Page() {
               <CartesianGrid stroke="oklch(0.3 0.03 265 / 0.4)" horizontal={false} />
               <XAxis type="number" stroke="oklch(0.6 0.03 250)" fontSize={11} unit="%" />
               <YAxis type="category" dataKey="name" stroke="oklch(0.6 0.03 250)" fontSize={11} width={70} />
-              <Tooltip contentStyle={ts} formatter={(v: number) => v.toFixed(2) + "%"} />
+              <Tooltip contentStyle={ts} formatter={(v: any) => v.toFixed(2) + "%"} />
               <Bar dataKey="crash_rate" fill={CHART_COLORS[4]} radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>

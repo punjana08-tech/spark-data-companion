@@ -81,7 +81,7 @@ function Page() {
               <CartesianGrid stroke="oklch(0.3 0.03 265 / 0.4)" vertical={false} />
               <XAxis dataKey="status" stroke="oklch(0.6 0.03 250)" fontSize={11} />
               <YAxis stroke="oklch(0.6 0.03 250)" fontSize={11} />
-              <Tooltip contentStyle={ts} formatter={(v: number) => fmtCur(v)} />
+              <Tooltip contentStyle={ts} formatter={(v: any) => fmtCur(v)} />
               <Bar dataKey="avg_amt" fill={CHART_COLORS[1]} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
