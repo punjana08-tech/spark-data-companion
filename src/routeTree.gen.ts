@@ -9,8 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TicketingRouteImport } from './routes/ticketing'
+import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as IncidentsRouteImport } from './routes/incidents'
+import { Route as GatesRouteImport } from './routes/gates'
+import { Route as FoodRouteImport } from './routes/food'
+import { Route as CrowdRouteImport } from './routes/crowd'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TicketingRoute = TicketingRouteImport.update({
+  id: '/ticketing',
+  path: '/ticketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncidentsRoute = IncidentsRouteImport.update({
+  id: '/incidents',
+  path: '/incidents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GatesRoute = GatesRouteImport.update({
+  id: '/gates',
+  path: '/gates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoodRoute = FoodRouteImport.update({
+  id: '/food',
+  path: '/food',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrowdRoute = CrowdRouteImport.update({
+  id: '/crowd',
+  path: '/crowd',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +61,130 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/crowd': typeof CrowdRoute
+  '/food': typeof FoodRoute
+  '/gates': typeof GatesRoute
+  '/incidents': typeof IncidentsRoute
+  '/payments': typeof PaymentsRoute
+  '/ticketing': typeof TicketingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/crowd': typeof CrowdRoute
+  '/food': typeof FoodRoute
+  '/gates': typeof GatesRoute
+  '/incidents': typeof IncidentsRoute
+  '/payments': typeof PaymentsRoute
+  '/ticketing': typeof TicketingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/crowd': typeof CrowdRoute
+  '/food': typeof FoodRoute
+  '/gates': typeof GatesRoute
+  '/incidents': typeof IncidentsRoute
+  '/payments': typeof PaymentsRoute
+  '/ticketing': typeof TicketingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/crowd'
+    | '/food'
+    | '/gates'
+    | '/incidents'
+    | '/payments'
+    | '/ticketing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/app'
+    | '/crowd'
+    | '/food'
+    | '/gates'
+    | '/incidents'
+    | '/payments'
+    | '/ticketing'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/crowd'
+    | '/food'
+    | '/gates'
+    | '/incidents'
+    | '/payments'
+    | '/ticketing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRoute
+  CrowdRoute: typeof CrowdRoute
+  FoodRoute: typeof FoodRoute
+  GatesRoute: typeof GatesRoute
+  IncidentsRoute: typeof IncidentsRoute
+  PaymentsRoute: typeof PaymentsRoute
+  TicketingRoute: typeof TicketingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ticketing': {
+      id: '/ticketing'
+      path: '/ticketing'
+      fullPath: '/ticketing'
+      preLoaderRoute: typeof TicketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incidents': {
+      id: '/incidents'
+      path: '/incidents'
+      fullPath: '/incidents'
+      preLoaderRoute: typeof IncidentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gates': {
+      id: '/gates'
+      path: '/gates'
+      fullPath: '/gates'
+      preLoaderRoute: typeof GatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/food': {
+      id: '/food'
+      path: '/food'
+      fullPath: '/food'
+      preLoaderRoute: typeof FoodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crowd': {
+      id: '/crowd'
+      path: '/crowd'
+      fullPath: '/crowd'
+      preLoaderRoute: typeof CrowdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +197,24 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRoute,
+  CrowdRoute: CrowdRoute,
+  FoodRoute: FoodRoute,
+  GatesRoute: GatesRoute,
+  IncidentsRoute: IncidentsRoute,
+  PaymentsRoute: PaymentsRoute,
+  TicketingRoute: TicketingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
