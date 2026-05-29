@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { analytics } from "@/lib/analytics";
 import { PageHeader, Stat, Panel, CHART_COLORS, fmtNum } from "@/components/ui-bits";
+import { StadiumHeatmap, DensityLegend } from "@/components/StadiumHeatmap";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell, Tooltip, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
 
 export const Route = createFileRoute("/crowd")({
@@ -12,14 +13,7 @@ const ts = { background: "oklch(0.18 0.025 265)", border: "1px solid oklch(0.32 
 function Page() {
   const c = analytics.crowd;
   const peak = [...c.by_zone].sort((a, b) => b.avg_density - a.avg_density)[0];
-  // heatmap matrix
-  const zones = Array.from(new Set(c.heatmap.map((h) => h.zone)));
-  const hours = Array.from({ length: 24 }, (_, i) => i);
-  const cell = (z: string, h: number) => c.heatmap.find((r) => r.zone === z && r.hour === h)?.density ?? 0;
-  const heatColor = (d: number) => {
-    const t = Math.min(1, d / 100);
-    return `oklch(${0.4 + t * 0.4} ${0.15 + t * 0.1} ${280 - t * 130})`;
-  };
+  const now = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
 
   return (
     <div className="p-8 grid-bg min-h-screen">
@@ -30,6 +24,17 @@ function Page() {
         <Stat label="Critical-density zones" value={String(c.density_buckets.find((b) => b.name === "Critical")?.value ?? 0)} accent="warning" />
         <Stat label="Total movements" value={fmtNum(c.by_zone.reduce((a, b) => a + b.visits, 0))} accent="info" />
       </div>
+
+      <Panel title="Live Crowd Heatmap" hint="All Zones" className="mb-4">
+        <div className="grid lg:grid-cols-[1fr_auto] gap-6 items-center">
+          <StadiumHeatmap zones={c.by_zone} />
+          <DensityLegend />
+        </div>
+        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+          Last Updated: {now}
+        </div>
+      </Panel>
 
       <div className="grid lg:grid-cols-3 gap-4">
         <Panel title="Hourly Entry Flow" className="lg:col-span-2">
@@ -62,7 +67,7 @@ function Page() {
           </ResponsiveContainer>
         </Panel>
 
-        <Panel title="Avg Density by Zone" className="lg:col-span-2">
+        <Panel title="Avg Density by Zone" className="lg:col-span-3">
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={c.by_zone}>
               <CartesianGrid stroke="oklch(0.3 0.03 265 / 0.4)" vertical={false} />
@@ -74,33 +79,6 @@ function Page() {
               <Legend wrapperStyle={{ fontSize: 11 }} />
             </BarChart>
           </ResponsiveContainer>
-        </Panel>
-
-        <Panel title="Zone × Hour Heatmap" className="lg:col-span-3">
-          <div className="overflow-x-auto">
-            <table className="text-[10px] font-mono w-full">
-              <thead>
-                <tr><th className="text-left pr-2 py-1 text-muted-foreground">Zone \ Hr</th>
-                  {hours.map((h) => <th key={h} className="px-1 text-muted-foreground font-normal">{h}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {zones.map((z) => (
-                  <tr key={z}>
-                    <td className="pr-2 py-0.5 text-muted-foreground">{z}</td>
-                    {hours.map((h) => {
-                      const d = cell(z, h);
-                      return <td key={h} className="p-0">
-                        <div className="h-6 m-0.5 rounded-sm grid place-items-center text-[9px] text-foreground/80" style={{ background: heatColor(d) }} title={`${z} @ ${h}:00 — ${d.toFixed(1)}`}>
-                          {d ? d.toFixed(0) : ""}
-                        </div>
-                      </td>;
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </Panel>
       </div>
     </div>
