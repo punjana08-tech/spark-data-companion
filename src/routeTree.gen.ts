@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TicketingRouteImport } from './routes/ticketing'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IncidentsRouteImport } from './routes/incidents'
@@ -19,11 +20,20 @@ import { Route as CrowdRouteImport } from './routes/crowd'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CrewIndexRouteImport } from './routes/crew.index'
+import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
+import { Route as BookIndexRouteImport } from './routes/book.index'
 import { Route as CrewLoginRouteImport } from './routes/crew.login'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
+import { Route as BookEventIdRouteImport } from './routes/book.$eventId'
 
 const TicketingRoute = TicketingRouteImport.update({
   id: '/ticketing',
   path: '/ticketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaymentsRoute = PaymentsRouteImport.update({
@@ -71,9 +81,29 @@ const CrewIndexRoute = CrewIndexRouteImport.update({
   path: '/crew/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/checkout/',
+  path: '/checkout/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookIndexRoute = BookIndexRouteImport.update({
+  id: '/book/',
+  path: '/book/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CrewLoginRoute = CrewLoginRouteImport.update({
   id: '/crew/login',
   path: '/crew/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookEventIdRoute = BookEventIdRouteImport.update({
+  id: '/book/$eventId',
+  path: '/book/$eventId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -86,8 +116,13 @@ export interface FileRoutesByFullPath {
   '/incidents': typeof IncidentsRoute
   '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
+  '/shop': typeof ShopRoute
   '/ticketing': typeof TicketingRoute
+  '/book/$eventId': typeof BookEventIdRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/crew/login': typeof CrewLoginRoute
+  '/book/': typeof BookIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/crew/': typeof CrewIndexRoute
 }
 export interface FileRoutesByTo {
@@ -99,8 +134,13 @@ export interface FileRoutesByTo {
   '/incidents': typeof IncidentsRoute
   '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
+  '/shop': typeof ShopRoute
   '/ticketing': typeof TicketingRoute
+  '/book/$eventId': typeof BookEventIdRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/crew/login': typeof CrewLoginRoute
+  '/book': typeof BookIndexRoute
+  '/checkout': typeof CheckoutIndexRoute
   '/crew': typeof CrewIndexRoute
 }
 export interface FileRoutesById {
@@ -113,8 +153,13 @@ export interface FileRoutesById {
   '/incidents': typeof IncidentsRoute
   '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
+  '/shop': typeof ShopRoute
   '/ticketing': typeof TicketingRoute
+  '/book/$eventId': typeof BookEventIdRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/crew/login': typeof CrewLoginRoute
+  '/book/': typeof BookIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/crew/': typeof CrewIndexRoute
 }
 export interface FileRouteTypes {
@@ -128,8 +173,13 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/login'
     | '/payments'
+    | '/shop'
     | '/ticketing'
+    | '/book/$eventId'
+    | '/checkout/success'
     | '/crew/login'
+    | '/book/'
+    | '/checkout/'
     | '/crew/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -141,8 +191,13 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/login'
     | '/payments'
+    | '/shop'
     | '/ticketing'
+    | '/book/$eventId'
+    | '/checkout/success'
     | '/crew/login'
+    | '/book'
+    | '/checkout'
     | '/crew'
   id:
     | '__root__'
@@ -154,8 +209,13 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/login'
     | '/payments'
+    | '/shop'
     | '/ticketing'
+    | '/book/$eventId'
+    | '/checkout/success'
     | '/crew/login'
+    | '/book/'
+    | '/checkout/'
     | '/crew/'
   fileRoutesById: FileRoutesById
 }
@@ -168,8 +228,13 @@ export interface RootRouteChildren {
   IncidentsRoute: typeof IncidentsRoute
   LoginRoute: typeof LoginRoute
   PaymentsRoute: typeof PaymentsRoute
+  ShopRoute: typeof ShopRoute
   TicketingRoute: typeof TicketingRoute
+  BookEventIdRoute: typeof BookEventIdRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   CrewLoginRoute: typeof CrewLoginRoute
+  BookIndexRoute: typeof BookIndexRoute
+  CheckoutIndexRoute: typeof CheckoutIndexRoute
   CrewIndexRoute: typeof CrewIndexRoute
 }
 
@@ -180,6 +245,13 @@ declare module '@tanstack/react-router' {
       path: '/ticketing'
       fullPath: '/ticketing'
       preLoaderRoute: typeof TicketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/payments': {
@@ -245,11 +317,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrewIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/': {
+      id: '/checkout/'
+      path: '/checkout'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof CheckoutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/': {
+      id: '/book/'
+      path: '/book'
+      fullPath: '/book/'
+      preLoaderRoute: typeof BookIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crew/login': {
       id: '/crew/login'
       path: '/crew/login'
       fullPath: '/crew/login'
       preLoaderRoute: typeof CrewLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$eventId': {
+      id: '/book/$eventId'
+      path: '/book/$eventId'
+      fullPath: '/book/$eventId'
+      preLoaderRoute: typeof BookEventIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -264,10 +364,25 @@ const rootRouteChildren: RootRouteChildren = {
   IncidentsRoute: IncidentsRoute,
   LoginRoute: LoginRoute,
   PaymentsRoute: PaymentsRoute,
+  ShopRoute: ShopRoute,
   TicketingRoute: TicketingRoute,
+  BookEventIdRoute: BookEventIdRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
   CrewLoginRoute: CrewLoginRoute,
+  BookIndexRoute: BookIndexRoute,
+  CheckoutIndexRoute: CheckoutIndexRoute,
   CrewIndexRoute: CrewIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
