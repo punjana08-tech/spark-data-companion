@@ -6,7 +6,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { Shell } from "@/components/Shell";
+import { Layout } from "@/components/Layout";
+import { AuthProvider } from "@/lib/auth";
+import { CartProvider } from "@/lib/cart";
 
 import appCss from "../styles.css?url";
 
@@ -113,7 +115,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Shell />
+      <AuthProvider>
+        <CartProvider>
+          <Layout />
+        </CartProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
