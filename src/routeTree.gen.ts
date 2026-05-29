@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TicketingRouteImport } from './routes/ticketing'
 import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IncidentsRouteImport } from './routes/incidents'
 import { Route as GatesRouteImport } from './routes/gates'
 import { Route as FoodRouteImport } from './routes/food'
@@ -18,6 +19,7 @@ import { Route as CrowdRouteImport } from './routes/crowd'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CrewIndexRouteImport } from './routes/crew.index'
+import { Route as CrewLoginRouteImport } from './routes/crew.login'
 
 const TicketingRoute = TicketingRouteImport.update({
   id: '/ticketing',
@@ -27,6 +29,11 @@ const TicketingRoute = TicketingRouteImport.update({
 const PaymentsRoute = PaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IncidentsRoute = IncidentsRouteImport.update({
@@ -64,6 +71,11 @@ const CrewIndexRoute = CrewIndexRouteImport.update({
   path: '/crew/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrewLoginRoute = CrewLoginRouteImport.update({
+  id: '/crew/login',
+  path: '/crew/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,8 +84,10 @@ export interface FileRoutesByFullPath {
   '/food': typeof FoodRoute
   '/gates': typeof GatesRoute
   '/incidents': typeof IncidentsRoute
+  '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew/login': typeof CrewLoginRoute
   '/crew/': typeof CrewIndexRoute
 }
 export interface FileRoutesByTo {
@@ -83,8 +97,10 @@ export interface FileRoutesByTo {
   '/food': typeof FoodRoute
   '/gates': typeof GatesRoute
   '/incidents': typeof IncidentsRoute
+  '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew/login': typeof CrewLoginRoute
   '/crew': typeof CrewIndexRoute
 }
 export interface FileRoutesById {
@@ -95,8 +111,10 @@ export interface FileRoutesById {
   '/food': typeof FoodRoute
   '/gates': typeof GatesRoute
   '/incidents': typeof IncidentsRoute
+  '/login': typeof LoginRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew/login': typeof CrewLoginRoute
   '/crew/': typeof CrewIndexRoute
 }
 export interface FileRouteTypes {
@@ -108,8 +126,10 @@ export interface FileRouteTypes {
     | '/food'
     | '/gates'
     | '/incidents'
+    | '/login'
     | '/payments'
     | '/ticketing'
+    | '/crew/login'
     | '/crew/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -119,8 +139,10 @@ export interface FileRouteTypes {
     | '/food'
     | '/gates'
     | '/incidents'
+    | '/login'
     | '/payments'
     | '/ticketing'
+    | '/crew/login'
     | '/crew'
   id:
     | '__root__'
@@ -130,8 +152,10 @@ export interface FileRouteTypes {
     | '/food'
     | '/gates'
     | '/incidents'
+    | '/login'
     | '/payments'
     | '/ticketing'
+    | '/crew/login'
     | '/crew/'
   fileRoutesById: FileRoutesById
 }
@@ -142,8 +166,10 @@ export interface RootRouteChildren {
   FoodRoute: typeof FoodRoute
   GatesRoute: typeof GatesRoute
   IncidentsRoute: typeof IncidentsRoute
+  LoginRoute: typeof LoginRoute
   PaymentsRoute: typeof PaymentsRoute
   TicketingRoute: typeof TicketingRoute
+  CrewLoginRoute: typeof CrewLoginRoute
   CrewIndexRoute: typeof CrewIndexRoute
 }
 
@@ -161,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/payments'
       fullPath: '/payments'
       preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/incidents': {
@@ -212,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrewIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crew/login': {
+      id: '/crew/login'
+      path: '/crew/login'
+      fullPath: '/crew/login'
+      preLoaderRoute: typeof CrewLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -222,8 +262,10 @@ const rootRouteChildren: RootRouteChildren = {
   FoodRoute: FoodRoute,
   GatesRoute: GatesRoute,
   IncidentsRoute: IncidentsRoute,
+  LoginRoute: LoginRoute,
   PaymentsRoute: PaymentsRoute,
   TicketingRoute: TicketingRoute,
+  CrewLoginRoute: CrewLoginRoute,
   CrewIndexRoute: CrewIndexRoute,
 }
 export const routeTree = rootRouteImport
