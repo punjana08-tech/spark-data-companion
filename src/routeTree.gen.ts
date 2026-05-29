@@ -17,6 +17,7 @@ import { Route as FoodRouteImport } from './routes/food'
 import { Route as CrowdRouteImport } from './routes/crowd'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CrewIndexRouteImport } from './routes/crew.index'
 
 const TicketingRoute = TicketingRouteImport.update({
   id: '/ticketing',
@@ -58,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrewIndexRoute = CrewIndexRouteImport.update({
+  id: '/crew/',
+  path: '/crew/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/incidents': typeof IncidentsRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew/': typeof CrewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/incidents': typeof IncidentsRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew': typeof CrewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/incidents': typeof IncidentsRoute
   '/payments': typeof PaymentsRoute
   '/ticketing': typeof TicketingRoute
+  '/crew/': typeof CrewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/payments'
     | '/ticketing'
+    | '/crew/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/payments'
     | '/ticketing'
+    | '/crew'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/incidents'
     | '/payments'
     | '/ticketing'
+    | '/crew/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   IncidentsRoute: typeof IncidentsRoute
   PaymentsRoute: typeof PaymentsRoute
   TicketingRoute: typeof TicketingRoute
+  CrewIndexRoute: typeof CrewIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crew/': {
+      id: '/crew/'
+      path: '/crew'
+      fullPath: '/crew/'
+      preLoaderRoute: typeof CrewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,7 +224,18 @@ const rootRouteChildren: RootRouteChildren = {
   IncidentsRoute: IncidentsRoute,
   PaymentsRoute: PaymentsRoute,
   TicketingRoute: TicketingRoute,
+  CrewIndexRoute: CrewIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
