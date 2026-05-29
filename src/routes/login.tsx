@@ -80,13 +80,14 @@ function LoginPage() {
   );
 }
 
-function Field({ icon, ...props }: { icon: React.ReactNode } & React.InputHTMLAttributes<HTMLInputElement> & { onChange: (v: string) => void; value: string }) {
-  const { onChange, ...rest } = props;
+function Field({ icon, value, onChange, type = "text", placeholder }: { icon: React.ReactNode; value: string; onChange: (v: string) => void; type?: string; placeholder?: string }) {
   return (
     <label className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border bg-background/40 focus-within:border-primary/60">
       <span className="text-muted-foreground">{icon}</span>
       <input
-        {...rest}
+        type={type}
+        placeholder={placeholder}
+        value={value}
         onChange={(e) => onChange(e.target.value)}
         className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
       />
